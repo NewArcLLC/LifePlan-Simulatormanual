@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>操作マニュアル — LifePlan Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --border: #e2ddd5;
+  --text: #1a1714;
+  --text2: #5c5751;
+  --text3: #9b9590;
+  --accent: #1e4d8c;
+  --accent-light: #e8eef7;
+  --accent-mid: #3a72c0;
+  --ok: #0a6640;
+  --ok-bg: #e6f4ed;
+  --warn: #8a5a00;
+  --warn-bg: #fdf3e0;
+  --ng: #8a1c1c;
+  --ng-bg: #fce8e8;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans JP',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  font-size:14px;
+  line-height:1.7;
+}
+
+/* ── ヘッダー ── */
+.header{
+  background:var(--accent);
+  color:#fff;
+  padding:1.1rem 2rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:var(--shadow-lg);
+}
+.header-icon{
+  width:36px;height:36px;
+  background:rgba(255,255,255,0.15);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.header-title{font-family:'DM Serif Display',serif;font-size:1.15rem;letter-spacing:.02em}
+.header-sub{font-size:11px;opacity:.7;margin-top:1px}
+.header-back{
+  margin-left:auto;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 15px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:var(--radius-sm);
+  color:#fff;font-size:12px;font-weight:500;
+  text-decoration:none;font-family:inherit;
+  cursor:pointer;transition:background .15s;
+  flex-shrink:0;
+}
+.header-back:hover{background:rgba(255,255,255,0.25)}
+
+/* ── レイアウト ── */
+.page{max-width:800px;margin:0 auto;padding:2rem 1.25rem 4rem}
+
+/* ── 目次 ── */
+.toc{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  margin-bottom:2rem;
+  box-shadow:var(--shadow);
+}
+.toc-title{
+  font-size:12px;font-weight:700;
+  color:var(--text3);
+  text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:.75rem;
+}
+.toc-list{
+  display:flex;flex-direction:column;gap:4px;
+  list-style:none;
+}
+.toc-list a{
+  font-size:13px;color:var(--accent);
+  text-decoration:none;
+  display:flex;align-items:center;gap:8px;
+  padding:4px 6px;border-radius:var(--radius-sm);
+  transition:background .12s;
+}
+.toc-list a:hover{background:var(--accent-light)}
+.toc-num{
+  font-size:10px;font-weight:700;
+  background:var(--accent);color:#fff;
+  width:18px;height:18px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+
+/* ── セクション ── */
+.section{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  box-shadow:var(--shadow);
+}
+.section-header{
+  background:var(--accent);
+  color:#fff;
+  padding:.85rem 1.5rem;
+  display:flex;align-items:center;gap:10px;
+}
+.section-num{
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.section-title{font-size:14px;font-weight:700}
+.section-body{padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:1rem}
+
+/* ── ログイン情報 ── */
+.login-info-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.login-info-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:1rem 1.25rem;
+}
+.lic-label{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.lic-val{font-size:18px;font-weight:700;color:var(--accent);letter-spacing:.03em}
+.lic-hint{font-size:11px;color:var(--text3);margin-top:4px}
+.note-box{
+  background:var(--accent-light);
+  border-left:3px solid var(--accent-mid);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:.7rem 1rem;
+  font-size:12px;color:var(--accent);
+  line-height:1.6;
+}
+
+/* ── ステップリスト ── */
+.step-list{display:flex;flex-direction:column;gap:0}
+.step-item{
+  display:flex;gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  align-items:flex-start;
+}
+.step-item:last-child{border-bottom:none;padding-bottom:0}
+.step-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.step-num.done{background:var(--ok)}
+.step-content{flex:1}
+.step-name{font-weight:700;color:var(--text);margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--text2)}
+.step-tag{
+  display:inline-block;
+  font-size:10px;padding:1px 7px;border-radius:999px;
+  font-weight:500;margin-bottom:5px;
+}
+.tag-req{background:var(--ng-bg);color:var(--ng)}
+.tag-opt{background:var(--surface2);color:var(--text3)}
+
+/* ── コア10項目 ── */
+.core-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+}
+.core-item{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface2);
+  border-radius:var(--radius-sm);
+  padding:8px 12px;
+  font-size:12px;color:var(--text);
+}
+.core-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--warn-bg);color:var(--warn);
+  font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+
+/* ── 結果判定 ── */
+.verdict-list{display:flex;flex-direction:column;gap:10px}
+.verdict-item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px 14px;
+  border-radius:var(--radius-sm);
+  font-size:13px;
+}
+.verdict-item.ok{background:var(--ok-bg);border:1px solid #9dd9b8}
+.verdict-item.warn{background:var(--warn-bg);border:1px solid #f0c96a}
+.verdict-item.ng{background:var(--ng-bg);border:1px solid #f0a0a0}
+.verdict-badge{
+  font-size:12px;font-weight:700;white-space:nowrap;
+  padding:3px 10px;border-radius:999px;flex-shrink:0;
+}
+.verdict-item.ok .verdict-badge{background:rgba(10,102,64,0.15);color:var(--ok)}
+.verdict-item.warn .verdict-badge{background:rgba(138,90,0,0.12);color:var(--warn)}
+.verdict-item.ng .verdict-badge{background:rgba(138,28,28,0.12);color:var(--ng)}
+.verdict-text{color:var(--text2);line-height:1.6}
+
+/* ── 機能一覧 ── */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.feature-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:.85rem 1rem;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.feat-icon{font-size:22px;flex-shrink:0;line-height:1;margin-top:1px}
+.feat-body{}
+.feat-name{font-weight:700;font-size:13px;color:var(--text);margin-bottom:3px}
+.feat-desc{font-size:11px;color:var(--text2);line-height:1.5}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{
+  width:100%;background:none;border:none;text-align:left;
+  padding:12px 0;cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  font-family:inherit;font-size:13px;font-weight:700;color:var(--text);
+}
+.faq-q:hover{color:var(--accent)}
+.faq-icon{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--accent-light);color:var(--accent);
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.faq-a{
+  font-size:12px;color:var(--text2);
+  padding:0 0 12px 30px;
+  line-height:1.7;display:none;
+}
+.faq-a.open{display:block}
+
+/* ── FP予約ボタン ── */
+.fp-cta{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  background:var(--accent);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  margin-top:.5rem;
+}
+.fp-cta-text{color:#fff}
+.fp-cta-title{font-size:15px;font-weight:700;margin-bottom:3px}
+.fp-cta-sub{font-size:12px;opacity:.8}
+.fp-cta-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 22px;
+  background:#fff;color:var(--accent);
+  border-radius:var(--radius-sm);
+  font-size:13px;font-weight:700;
+  text-decoration:none;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  transition:all .15s;
+}
+.fp-cta-btn:hover{opacity:.9;transform:translateY(-1px)}
+
+/* ── チェックリスト印刷用 ── */
+.checklist{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+}
+.cl-item{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:7px 10px;
+  font-size:12px;
+}
+.cl-box{
+  width:16px;height:16px;border:2px solid var(--border2);
+  border-radius:3px;flex-shrink:0;
+}
+
+/* ── スクロールトップ ── */
+.scroll-top{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  width:40px;height:40px;
+  background:var(--accent);color:#fff;
+  border:none;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:var(--shadow-lg);
+  transition:all .15s;opacity:0;pointer-events:none;
+}
+.scroll-top.show{opacity:1;pointer-events:auto}
+.scroll-top:hover{background:#163d72;transform:translateY(-2px)}
+
+@media print{
+  .header-back,.scroll-top{display:none!important}
+  .section{box-shadow:none;border:1px solid #ccc}
+  body{background:#fff}
+}
+@media(max-width:600px){
+  .login-info-grid,.core-grid,.feature-grid,.checklist{grid-template-columns:1fr}
+  .header{padding:1rem}
+  .fp-cta{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-icon">📖</div>
+  <div>
+    <div class="header-title">操作マニュアル</div>
+    <div class="header-sub">LifePlan Simulator — NewArc LLC</div>
+  </div>
+  <a href="life-plan-simulator.html" class="header-back">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    シミュレーターへ戻る
+  </a>
+</header>
+
+<div class="page">
+
+  <!-- 目次 -->
+  <div class="toc">
+    <div class="toc-title">目次</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">1</span>ログイン方法</a></li>
+      <li><a href="#s2"><span class="toc-num">2</span>基本的な使い方（STEP別ガイド）</a></li>
+      <li><a href="#s3"><span class="toc-num">3</span>商談5分入力のコツ（コア10項目）</a></li>
+      <li><a href="#s4"><span class="toc-num">4</span>結果画面の見方</a></li>
+      <li><a href="#s5"><span class="toc-num">5</span>主な機能一覧</a></li>
+      <li><a href="#s6"><span class="toc-num">6</span>よくある質問（FAQ）</a></li>
+      <li><a href="#s7"><span class="toc-num">7</span>商談前チェックリスト</a></li>
+      <li><a href="#s8"><span class="toc-num">8</span>FP相談のご案内</a></li>
+    </ul>
+  </div>
+
+  <!-- 1. ログイン -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">🔐 ログイン方法</div>
+    </div>
+    <div class="section-body">
+      <div class="login-info-grid">
+        <div class="login-info-card">
+          <div class="lic-label">ログインID</div>
+          <div class="lic-val">NewArcLLC</div>
+          <div class="lic-hint">固定です。変更はありません。</div>
+        </div>
+        <div class="login-info-card">
+          <div class="lic-label">パスワード</div>
+          <div class="lic-val" style="font-size:14px">当日の西暦年月日</div>
+          <div class="lic-hint">例：2026年3月22日 → <strong>20260322</strong></div>
+        </div>
+      </div>
+      <div class="note-box">
+        パスワードは<strong>毎日変わります</strong>。当日の日付を「西暦4桁＋月2桁＋日2桁」の8桁形式で入力してください。月・日は必ず2桁（3月は03ではなく03）で入力します。
+      </div>
+      <div style="font-size:12px;color:var(--text2)">
+        <strong>パスワードが通らない場合</strong>のチェックポイント：<br>
+        ・月や日が1桁になっていないか確認（例：3月は <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">03</code>、1日は <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">01</code>）<br>
+        ・日付が今日のものか確認（日付変更直後はご注意ください）<br>
+        ・全角数字になっていないか確認
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 基本的な使い方 -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">📋 基本的な使い方（STEP別ガイド）</div>
+    </div>
+    <div class="section-body">
+      <div class="note-box">上のステップナビゲーションをクリックして各STEPに直接移動できます。入力後「次へ」ボタンで順に進んでください。</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div><span class="step-tag tag-req">必須</span></div>
+            <div class="step-name">STEP 1 — 基本情報・家族構成</div>
+            <div class="step-desc">世帯主・配偶者の年齢、子どもの人数と年齢（最大3人）、出産予定人数、共働き／片働きを入力します。片働きに切り替える時期や復職予定も設定できます。</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div><span class="step-tag tag-req">必須</span></div>
+            <div class="step-name">STEP 2 — 収入・雇用情報</div>
+            <div class="step-desc">世帯主・配偶者それぞれの手取り年収、ボーナス年間合計、年金見込み額（月額）を入力します。物価上昇率（デフォルト2%）・給与上昇率（デフォルト1%）は変更可能です。65歳以降は自動的に年金収入へ切り替わります。</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div><span class="step-tag tag-req">必須</span></div>
+            <div class="step-name">STEP 3 — 家計・貯蓄</div>
+            <div class="step-desc">現在の住宅費（家賃など）、月間生活費の内訳または合計、現在の金融資産残高、月間貯蓄額を入力します。生活費は「内訳入力」と「合計のみ入力」の2モードを切り替えられます。月間貯蓄額は65歳で自動停止します。</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div><span class="step-tag tag-req">必須</span></div>
+            <div class="step-name">STEP 4 — 住宅購入条件</div>
+            <div class="step-desc">希望物件価格・頭金・親からの援助・購入時期・ローン期間（15〜50年）・適用金利を入力します。月返済額はその場で試算されます。</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div><span class="step-tag tag-req">必須</span></div>
+            <div class="step-name">STEP 5 — 教育・車</div>
+            <div class="step-desc">教育方針（公立中心／中高一部私立／私立中心）と大学進学の有無、車の買い替えサイクルを設定します。子どもが独立（大学卒業 or 高校卒業）すると月間生活費が1人あたり8%自動削減されます。</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <div><span class="step-tag tag-opt">任意</span></div>
+            <div class="step-name">STEP 6 — 保険・ローン・年間イベント費</div>
+            <div class="step-desc">保険料（年間）、その他ローンの月返済額と完済時期、年間イベント費（旅行・冠婚葬祭・帰省など9項目）を入力します。年間イベント費は物価上昇率が適用されます。</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num done">✓</div>
+          <div class="step-content">
+            <div class="step-name">シミュレーション実行</div>
+            <div class="step-desc">「シミュレーション実行」ボタンを押すと、90歳までのキャッシュフロー試算・住宅ローン残高グラフ・年次詳細表が表示されます。条件を変更してすぐに再計算できます。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. コア10項目 -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">⚡ 商談5分入力のコツ（コア10項目）</div>
+    </div>
+    <div class="section-body">
+      <div class="note-box">以下の<strong>10項目だけ入力</strong>すれば、最低限のシミュレーションが実行できます。商談中のスピード入力に活用してください。</div>
+      <div class="core-grid">
+        <div class="core-item"><span class="core-num">①</span>世帯主の年齢</div>
+        <div class="core-item"><span class="core-num">②</span>子どもの人数・年齢</div>
+        <div class="core-item"><span class="core-num">③</span>共働き／片働きの選択</div>
+        <div class="core-item"><span class="core-num">④</span>世帯主の手取り年収</div>
+        <div class="core-item"><span class="core-num">⑤</span>現在の金融資産（貯蓄）</div>
+        <div class="core-item"><span class="core-num">⑥</span>月間生活費の合計</div>
+        <div class="core-item"><span class="core-num">⑦</span>希望物件価格</div>
+        <div class="core-item"><span class="core-num">⑧</span>頭金の額</div>
+        <div class="core-item"><span class="core-num">⑨</span>借入期間・金利</div>
+        <div class="core-item"><span class="core-num">⑩</span>教育方針（公立/私立）</div>
+      </div>
+      <div style="font-size:12px;color:var(--text2)">
+        ✅ デフォルト値（物価上昇率2%・給与上昇率1%・年金15万円など）はFP標準的な想定値に設定済みです。<br>
+        ✅ コア10項目以外の欄は空欄・デフォルト値のままでも動作します。<br>
+        ✅ 商談後に追加情報を入力して精緻化することを推奨します。
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 結果の見方 -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">📊 結果画面の見方</div>
+    </div>
+    <div class="section-body">
+      <div class="verdict-list">
+        <div class="verdict-item ok">
+          <div class="verdict-badge">✅ 緑（安全）</div>
+          <div class="verdict-text">90歳まで貯蓄残高がプラスを維持できる見込みです。最低残高が300万円超の場合に表示されます。安心して住宅購入を提案できる状態です。</div>
+        </div>
+        <div class="verdict-item warn">
+          <div class="verdict-badge">⚡ 黄（注意）</div>
+          <div class="verdict-text">90歳までプラスは維持しますが、最低残高が300万円未満と余裕が少ない状態です。急な出費リスクを説明し、繰上返済や節約について追加提案を検討してください。</div>
+        </div>
+        <div class="verdict-item ng">
+          <div class="verdict-badge">⚠️ 赤（要対策）</div>
+          <div class="verdict-text">途中で貯蓄残高がマイナスになる見込みです。「XX歳頃」と具体的な時期が表示されます。頭金の増額・借入期間の延長・収入アップの見通しなどを提案してください。</div>
+        </div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-top:.25rem">グラフ・表の見方</div>
+      <div style="font-size:12px;color:var(--text2);display:flex;flex-direction:column;gap:7px">
+        <div>📉 <strong>住宅ローン残高グラフ</strong>（赤エリア）：借入から完済まで残高がどう減るかを表示。青破線（金融資産）と交差する点が繰上返済の判断ポイントです。</div>
+        <div>📈 <strong>貯蓄残高推移グラフ</strong>（青折れ線）：90歳までの資産残高の変化。緑バーは黒字、赤バーは赤字の年間CFを示します。</div>
+        <div>📋 <strong>年次キャッシュフロー詳細表</strong>：5年おき＋ライフイベント発生年に行を表示。主要な購入・入学・完済イベントがハイライトされます。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 機能一覧 -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">🔑 主な機能一覧</div>
+    </div>
+    <div class="section-body">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feat-icon">👨‍👩‍👧</div>
+          <div class="feat-body">
+            <div class="feat-name">家族構成</div>
+            <div class="feat-desc">子ども最大3人・出産予定（最大3人）・共働き/片働き切替・復職タイミング設定に対応</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">💰</div>
+          <div class="feat-body">
+            <div class="feat-name">収入管理</div>
+            <div class="feat-desc">共働き/片働き自動切替・給与上昇率1%/年・65歳で年金収入へ自動移行・貯蓄額は65歳で自動停止</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🏠</div>
+          <div class="feat-body">
+            <div class="feat-name">住宅ローン計算</div>
+            <div class="feat-desc">15〜50年（5年刻み）・金利自由設定・元利均等計算・ローン残高グラフで完済まで可視化</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🎓</div>
+          <div class="feat-body">
+            <div class="feat-name">教育費シミュレーション</div>
+            <div class="feat-desc">公立中心・中高一部私立・私立中心の3パターン。子の独立（18歳or22歳）で生活費を1人あたり8%自動削減</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🛒</div>
+          <div class="feat-body">
+            <div class="feat-name">生活費内訳入力</div>
+            <div class="feat-desc">食費・光熱費・通信費など9項目を個別入力。リアルタイムで合計・割合バーを表示。合計のみ入力モードへも切替可能</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">📅</div>
+          <div class="feat-body">
+            <div class="feat-name">年間イベント費</div>
+            <div class="feat-desc">旅行・冠婚葬祭・帰省・記念日・趣味など9項目の内訳入力。物価上昇率を毎年適用</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🚗</div>
+          <div class="feat-body">
+            <div class="feat-name">車の買い替え</div>
+            <div class="feat-desc">次回買い替え時期・予算・サイクルを設定。イベント年にはキャッシュフロー表にアイコンで表示</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">📈</div>
+          <div class="feat-body">
+            <div class="feat-name">CF表・グラフ出力</div>
+            <div class="feat-desc">90歳まで年次CF表・貯蓄推移グラフ・住宅ローン残高グラフを表示。印刷・PDF保存にも対応</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. FAQ -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">❓ よくある質問（FAQ）</div>
+    </div>
+    <div class="section-body" style="padding-top:.5rem;padding-bottom:.5rem">
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            共働きから片働きに切り替わる時期はどこで設定できますか？
+          </button>
+          <div class="faq-a">STEP 1「働き方」カードの「片働きへの切り替え（何年後）」で設定します。さらに「復職予定（切替後 何年後）」で配偶者が再就職するタイミングも設定できます。例：2年後に産休で片働き → 5年後に復職 の場合は、切替2年後・復職5年後と入力してください。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            年金額はどこで入力しますか？
+          </button>
+          <div class="faq-a">STEP 2「老後収入（年金）」カードに世帯主・配偶者それぞれの月額年金見込みを入力してください。厚生年金加入者の目安は15〜18万円/月、専業主婦（国民年金のみ）は約6万円/月です。シミュレーションでは65歳以降に給与収入が自動的に年金収入へ切り替わります。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            物件価格や金利を変えて比較したい場合は？
+          </button>
+          <div class="faq-a">結果画面下部の「条件を修正」ボタンでSTEP 6に戻り、条件を変えて「シミュレーション実行」を再度押すと即座に再計算されます。複数パターンを比較する場合はブラウザタブを複製するか、印刷機能で各パターンをPDF保存することをお勧めします。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            住宅ローン残高グラフと金融資産残高の交差点は何を意味しますか？
+          </button>
+          <div class="faq-a">赤エリア（ローン残高）と青破線（金融資産）が交差する点は、「金融資産がローン残高を上回った時点」を示します。この時点以降は理論上、繰上一括返済が可能な状態です。繰上返済の話題につなげる会話のきっかけとして活用できます。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            子どもが3人以上いる場合はどうすればいいですか？
+          </button>
+          <div class="faq-a">現在のシミュレーターは最大3人（現在の子ども＋出産予定の合計3人）に対応しています。4人以上の場合は、4人目以降の教育費・生活費増加分を「年間イベント費」や「月間生活費」に手動で上乗せして調整してください。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            変動金利の場合はどう入力すればよいですか？
+          </button>
+          <div class="faq-a">STEP 4「適用金利」欄に現在の変動金利を入力してください。このシミュレーターは金利が一定であることを前提とした元利均等計算です。将来の金利上昇リスクを考慮する場合は、少し高めの金利（例：現行0.7%→2%など）を入力したパターンも試してみることをお勧めします。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-icon">Q</span>
+            結果を印刷・保存できますか？
+          </button>
+          <div class="faq-a">結果画面右上の「印刷・PDF保存」ボタンからブラウザの印刷ダイアログを開けます。「PDFとして保存」を選ぶとPDFファイルとして保存できます。印刷時はナビゲーションや不要なボタンが非表示になります。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. チェックリスト -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">✅ 商談前チェックリスト</div>
+    </div>
+    <div class="section-body">
+      <div class="note-box">商談前にお客様へ事前確認いただくと、当日の入力がスムーズになります。</div>
+      <div class="checklist">
+        <div class="cl-item"><div class="cl-box"></div>世帯主・配偶者の年齢</div>
+        <div class="cl-item"><div class="cl-box"></div>子どもの人数・年齢</div>
+        <div class="cl-item"><div class="cl-box"></div>世帯主の手取り年収（概算でOK）</div>
+        <div class="cl-item"><div class="cl-box"></div>配偶者の手取り年収</div>
+        <div class="cl-item"><div class="cl-box"></div>現在の金融資産（貯蓄）</div>
+        <div class="cl-item"><div class="cl-box"></div>月間生活費の合計（大まかでOK）</div>
+        <div class="cl-item"><div class="cl-box"></div>現在の家賃・住宅費</div>
+        <div class="cl-item"><div class="cl-box"></div>希望する物件価格（予算上限）</div>
+        <div class="cl-item"><div class="cl-box"></div>頭金として準備できる金額</div>
+        <div class="cl-item"><div class="cl-box"></div>親・祖父母からの援助の有無</div>
+        <div class="cl-item"><div class="cl-box"></div>その他ローンの月返済額</div>
+        <div class="cl-item"><div class="cl-box"></div>保険料の年間合計</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. FP相談 -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <div class="section-title">📞 FP相談のご案内</div>
+    </div>
+    <div class="section-body">
+      <div style="font-size:13px;color:var(--text2)">
+        このシミュレーターはあくまで簡易的な試算ツールです。より詳細なライフプラン・資産設計・保険見直しなどについては、FPによる個別相談をご案内ください。
+      </div>
+      <div class="fp-cta">
+        <div class="fp-cta-text">
+          <div class="fp-cta-title">FPへの個別相談を予約する</div>
+          <div class="fp-cta-sub">無料・オンライン対応 — Googleカレンダーで空き枠を確認できます</div>
+        </div>
+        <a href="https://calendar.app.google/RKKe6Uj6B9ew7x7Q7" target="_blank" rel="noopener noreferrer" class="fp-cta-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          予約ページへ
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- スクロールトップ -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="トップへ">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+function toggleFaq(btn) {
+  const ans = btn.nextElementSibling;
+  ans.classList.toggle('open');
+}
+
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  btn.classList.toggle('show', window.scrollY > 300);
+});
+</script>
+</body>
+</html>
